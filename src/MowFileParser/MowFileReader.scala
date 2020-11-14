@@ -1,6 +1,11 @@
 package MowFileParser
+import java.io.File
+
 import MowItNow.Garden
 import MowItNow.Mower
+import javax.swing.JFileChooser
+import javax.swing.filechooser.FileNameExtensionFilter
+
 import scala.io.Source
 
 class MowFileReader {
@@ -50,6 +55,34 @@ class MowFileReader {
       lineNumber += 1
     }
     return mowers
+  }
+
+  def instructionFileChooser(): String = {
+    val chooser = new JFileChooser
+    chooser.setCurrentDirectory(new File("."))
+    chooser.setDialogTitle("Select your instruction file")
+    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY)
+    val filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text")
+    chooser.setFileFilter(filter)
+    chooser.setAcceptAllFileFilterUsed(false)
+    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+      return chooser.getSelectedFile.getPath
+    }
+    else ""
+  }
+
+  def exportFileChooser(): String = {
+    val chooser = new JFileChooser
+    chooser.setCurrentDirectory(new File("."))
+    chooser.setDialogTitle("Select your instruction file")
+    chooser.setFileSelectionMode(JFileChooser.FILES_ONLY)
+    val filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text")
+    chooser.setFileFilter(filter)
+    chooser.setAcceptAllFileFilterUsed(false)
+    if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+      return chooser.getSelectedFile.getPath
+    }
+    else ""
   }
   
 }

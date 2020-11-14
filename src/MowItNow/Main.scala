@@ -1,15 +1,19 @@
 package MowItNow
+import MowFileParser.{MowFileReader, MowFileWriter}
+import javax.swing.JOptionPane
 
-import MowFileParser.MowFileReader
 
 object Main {
 
   def main(args: Array[String]): Unit = {
-    var test = new MowFileReader
-    val garden = test.readGarden("E:\\IntelliJ\\Scale-Project-Clippers\\src\\MowFileParser\\instruction.txt")
-    val mowers = test.readMower("E:\\IntelliJ\\Scale-Project-Clippers\\src\\MowFileParser\\instruction.txt")
-    var mowerNumber = 1
-    for (mower <- mowers) {
+    try {
+      val mowerInstructionFile = new MowFileReader
+      val filePath = mowerInstructionFile.instructionFileChooser()
+      val garden = mowerInstructionFile.readGarden(filePath)
+      val mowers = mowerInstructionFile.readMower(filePath)
+      var mowerNumber = 1
+      var result = List.empty[String]
+      for (mower <- mowers) {
         for (instruction <- mower.instructionList) { // Pour chaque instruction
           if(instruction == 'A' && garden.isMovePossible(mower)) {
             mower.move(instruction)
@@ -17,13 +21,23 @@ object Main {
             mower.move(instruction)
           }
         }
-        println("Mower n°" + mowerNumber.toString + " - Position x : " + mower.x.toString + " position y : " + mower.y.toString + " direction : "
-          + mower.direction.toString)
-      mowerNumber += 1
+        result = result :+ "Mower n°" + mowerNumber.toString + " - Position x : " + mower.x.toString + " position y : " +
+          mower.y.toString + " direction : " + mower.direction.toString + "\n"
+        mowerNumber += 1
+      }
+      val outputFile = new MowFileWriter
+      val outputFilePath = mowerInstructionFile.exportFileChooser()
+      outputFile.writeMowerInFile(outputFilePath, result)
+    }
+    catch {
+      case _: Throwable =>
+        JOptionPane.showMessageDialog(null, "Error, mower could not start properly", "An unexpected error occurred", 0)
     }
 
 
-
   }
+
+
+
 
 }

@@ -1,0 +1,2 @@
+Mower n°1 - Position x : 1 position y : 3 direction : N
+Mower n°2 - Position x : 5 position y : 1 direction : E
