@@ -1,6 +1,6 @@
 package MowItNow
 
-class Mower(var x: Int = 0, var y: Int = 0, var  direction: Char = 'N') {
+class Mower(var x: Int = 0, var y: Int = 0, var  direction: Char = 'N', var instructionList: List[Char]) {
 
   def move(moveDirection: Char): Unit = {
     moveDirection match {
